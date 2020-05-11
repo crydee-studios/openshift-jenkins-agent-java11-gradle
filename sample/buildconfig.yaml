@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+    labels:
+        build: jenkins-agent-java11-gradle-pipeline
+        app: jenkins-agent-java11-gradle
+    name: jenkins-agent-java11-gradle-pipeline
+spec:
+    successfulBuildHistoryLimit: 5
+    failedBuildHistoryLimit: 5
+    strategy:
+        type: JenkinsPipeline
+        jenkinsPipelineStrategy:
+            jenkinsfile: |-
+                pipeline {
+                    agent {
+                        label 'java11_gradle'
+                    }
+
+                    stages {
+                        stage('Environment') {
+                            steps {
+                                script {
+                                    sh(script:"java -version && env")
+                                }
+                            }
+                        }
+                    }
+                }

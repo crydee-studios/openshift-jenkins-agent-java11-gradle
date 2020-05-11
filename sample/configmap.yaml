@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    labels:
+        role: jenkins-slave
+    name: jenkins-agent-java11-gradle
+data:
+    gradle: |-
+        <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+            <name>java11_gradle</name>
+            <instanceCap>10</instanceCap>
+            <idleMinutes>15</idleMinutes>
+            <label>java11_gradle</label>
+            <serviceAccount>jenkins</serviceAccount>
+            <nodeSelector></nodeSelector>
+            <volumes/>
+            <containers>
+            <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                <name>jnlp</name>
+                <image>crydeestudios/openshift-jenkins-agent-java11-gradle:latest</image>
+                <privileged>false</privileged>
+                <alwaysPullImage>false</alwaysPullImage>
+                <workingDir>/tmp</workingDir>
+                <command/>
+                <ttyEnabled>true</ttyEnabled>
+                <resourceRequestCpu>200m</resourceRequestCpu>
+                <resourceRequestMemory>0.5Gi</resourceRequestMemory>
+                <resourceLimitCpu>500m</resourceLimitCpu>
+                <resourceLimitMemory>1Gi</resourceLimitMemory>
+                <envVars>
+                    <org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
+                        <key>_JAVA_OPTIONS</key>
+                        <value>-XX:MaxRAMPercentage=50</value>
+                    </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
+                </envVars>
+            </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+            </containers>
+            <envVars/>
+            <annotations/>
+            <imagePullSecrets/>
+            <nodeProperties/>
+        </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
