@@ -5,7 +5,7 @@ LABEL maintainer="dean@crydeestudios.com"
 ENV JAVA_VERSION=java-11 \
     CONTAINER_HEAP_PERCENT=0.1
 
-RUN INSTALL_PKGS="$JAVA_VERSION-openjdk-headless.x86_64 $JAVA_VERSION-openjdk-headless.i686" && \
+RUN INSTALL_PKGS="$JAVA_VERSION-openjdk-devel.x86_64 $JAVA_VERSION-openjdk-devel.i686" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS 
 
